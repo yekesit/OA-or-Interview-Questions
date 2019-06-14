@@ -3,6 +3,4 @@ project(OA-or-Interview_Question)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_subdirectory(ea)
-
-add_executable(OA-or-Interview_Question main.cpp)
+add_executable(ea remove_character_from_string.cpp)
