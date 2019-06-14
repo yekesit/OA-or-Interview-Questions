@@ -1,0 +1,12 @@
+1.
+Different from:
+string a = "asd\0asd";
+string b = "asdXasd"; b[4] = '\0';
+For cout << a; //we get "asd".
+For cout << b; //we get "asd[]asd".
+
+The reason is std::string is safe storage, it always save all characters and if you output, we get all contens.
+So the length of a is 3, length of b is 7.
+When you use "asd\0asd" to initial a string, it is "const char *", so compiler will make it stop at \0, so finally you
+get a as "asd".
+
