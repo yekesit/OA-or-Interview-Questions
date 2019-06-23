@@ -3,4 +3,4 @@ project(OA-or-Interview_Question)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(ea inorder_expression_to_binary_tree.cpp)
+add_executable(ea "Maximum subarray sum modulo m.cpp")
