@@ -64,6 +64,6 @@ void buildPreByStack(string& input){
 
 
 int main(){
-    string input = "1+(2+3)";
+    string input = "1+(3+1)";
     buildPreByStack(input);
 }
