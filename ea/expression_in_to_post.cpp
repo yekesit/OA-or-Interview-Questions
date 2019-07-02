@@ -148,7 +148,7 @@ void buildPostExpByStack(string& input){
 
 
 int main() {
-    string input = "4-((3+4)-5*2)";
+    string input = "4-((3+4)-4/5*2)";
     buildPostExpByTree(input);
     buildPostExpByStack(input);
 }
