@@ -62,7 +62,23 @@ Node* buildExpTreeByIn(string& input){
             num.push(new_num);
         }
         if(isOperator(i)){
-            if(i == '*' || i == '/'){
+            if(i == '/'){
+                if(ope.empty() || ope.top() == '('){
+                    ope.push(i);
+                }
+                else{
+                    while(!ope.empty() && ope.top() != '(' && ope.top() != '+' && ope.top() != '-'){
+                        Node* right = num.top(); num.pop();
+                        Node* left = num.top(); num.pop();
+                        Node* pre = new Node(ope.top()); ope.pop();
+                        pre->right = right;
+                        pre->left = left;
+                        num.push(pre);
+                    }
+                    ope.push(i);
+                }
+            }
+            else if(i == '*' || i == '/'){
                 ope.push(i);
             }
             if(i == '+' || i == '-'){
@@ -123,7 +139,19 @@ void buildPostExpByStack(string& input){
             cout << i;
         }
         if(isOperator(i)){
-            if(i == '*' || i == '/'){
+            if(i == '/'){
+                if(ope.empty() || ope.top() == '('){
+                    ope.push(i);
+                }
+                else{
+                    while(!ope.empty() && ope.top() != '(' && ope.top() != '+' && ope.top() != '-'){
+                        cout << ope.top();
+                        ope.pop();
+                    }
+                    ope.push(i);
+                }
+            }
+            else if(i == '*'){
                 ope.push(i);
             }
             else{
@@ -135,7 +163,7 @@ void buildPostExpByStack(string& input){
                         cout << ope.top();
                         ope.pop();
                     }
-                    ope.pop();
+                    ope.push(i);
                 }
             }
         }
@@ -148,7 +176,7 @@ void buildPostExpByStack(string& input){
 
 
 int main() {
-    string input = "4-((3+4)-4/5*2)";
+    string input = "2*3*2";
     buildPostExpByTree(input);
     buildPostExpByStack(input);
 }
