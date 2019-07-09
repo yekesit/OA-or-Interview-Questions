@@ -1000,6 +1000,166 @@ public:
 };
 
 
+//serialize and deserialize a tree
+class Codec_1 {
+public:
+    struct TreeNode{
+        int val;
+        TreeNode *left;
+        TreeNode *right;
+        explicit TreeNode(int val) : val(val), left(nullptr), right(nullptr){}
+    };
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        if(!root) return "# ";
+        string cur;
+        cur += to_string(root->val) + " " + serialize(root->left) + serialize(root->right);
+        return cur;
+    }
+
+
+    TreeNode* helper(istringstream& str){
+        string cur;
+        str >> cur;
+        if(cur == "#"){
+            return nullptr;
+        }
+        else{
+            TreeNode *new_one = new TreeNode(stoi(cur));
+            new_one->left = helper(str);
+            new_one->right = helper(str);
+            return new_one;
+        }
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        istringstream str(data);
+        return helper(str);
+    }
+};
+
+//encode and decode a string
+class Codec_2 {
+public:
+
+    // Encodes a list of strings to a single string.
+    string encode(vector<string>& strs) {
+        string res = "";
+        for(auto& s : strs){
+            int len = s.length();
+            res += to_string(len) + "/";
+            res += s;
+        }
+        return res;
+    }
+
+    // Decodes a single string to a list of strings.
+    vector<string> decode(string s) {
+        vector<string> res;
+        int index = 0;
+        while(index < s.length()){
+            int next = s.find_first_of('/', index);
+            int len = stoi(s.substr(index, next - index));
+            index = next + 1;
+            res.push_back(s.substr(next + 1, len));
+            index += len;
+        }
+        return res;
+    }
+};
+
+//serialize and deserialize a BST in 4 bytes method
+class Codec_3 {
+public:
+    struct TreeNode{
+        int val;
+        TreeNode *left;
+        TreeNode *right;
+        explicit TreeNode(int val) : val(val), left(nullptr), right(nullptr){}
+    };
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        string order;
+        inorderDFS(root, order);
+        return order;
+    }
+
+    inline void inorderDFS(TreeNode* root, string& order) {
+        if (!root) return;
+        char buf[4];
+        memcpy(buf, &(root->val), sizeof(int)); //burn the int into 4 chars
+        for (int i=0; i<4; i++) order.push_back(buf[i]);
+        inorderDFS(root->left, order);
+        inorderDFS(root->right, order);
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        int pos = 0;
+        return reconstruct(data, pos, INT_MIN, INT_MAX);
+    }
+
+    inline TreeNode* reconstruct(const string& buffer, int& pos, int minValue, int maxValue) {
+        if (pos >= buffer.size()) return NULL; //using pos to check whether buffer ends is better than using char* directly.
+
+        int value;
+        memcpy(&value, &buffer[pos], sizeof(int));
+        if (value < minValue || value > maxValue) return NULL;
+
+        TreeNode* node = new TreeNode(value);
+        pos += sizeof(int);
+        node->left = reconstruct(buffer, pos, minValue, value);
+        node->right = reconstruct(buffer, pos, value, maxValue);
+        return node;
+    }
+};
+
+
+//Word break II
+class Solution_29{
+public:
+    unordered_set<string> dict;
+    unordered_map<int, vector<string>> exist;
+    int len;
+    vector<string> wordBreak(string s, vector<string>& wordDict){
+        dict.insert(wordDict.begin(), wordDict.end());
+        len = s.length();
+        return helper(s, 0);
+    }
+
+
+
+    vector<string> helper(string& s, int index){
+        if(exist.find(index) != exist.end()){
+            return exist[index];
+        }
+        if(index == len){
+            return {""};
+        }
+        vector<string> cur{};
+        for(int i = index + 1; i <= len; i++){
+            string tmp = s.substr(index, i - index);
+            if(dict.find(tmp) != dict.end()){
+                vector<string> next = helper(s, i);
+                for(auto& n : next){
+                    string new_tmp = "";
+                    new_tmp += tmp;
+                    new_tmp += n == "" ? "" : " ";
+                    new_tmp += n;
+                    cur.push_back(new_tmp);
+                }
+            }
+        }
+        exist[index] = cur;
+        return cur;
+    }
+};
+
+
+
+
+
 
 int main() {
 }
