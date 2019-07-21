@@ -3,9 +3,11 @@
 //
 
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
+//Also can multiple with precision first, then solve problem all in int....
 double squareRoot(int num, int precision){
     int left = 0;
     int right = num;
@@ -35,7 +37,40 @@ double squareRoot(int num, int precision){
     return res;
 }
 
+
+double squareRootInt(int num, int precision){
+    long n = (long)num * pow(10, precision * 2);
+    long left = 0;
+    long right = n;
+    long res = 0;
+    while(left <= right){
+        long mid = left + (right - left) / 2;
+        cout << mid << endl;
+        if(mid * mid == n){
+            res = mid;
+            break;
+        }
+        if(mid * mid < n){
+            res = mid;
+            left = mid + 1;
+        }
+        else{
+            right = mid - 1;
+        }
+    }
+    double ans = res;
+    for(int i = 0; i < precision; i++){
+        ans /= 10;
+    }
+    return ans;
+
+}
+
 int main() {
-    cout << squareRoot(50, 3) << endl;
-    cout << squareRoot(10, 4) << endl;
+//    cout << squareRoot(50, 3) << endl;
+//    cout << squareRoot(15, 2) << endl;
+
+    cout << squareRootInt(50, 3) << endl;
+//    cout << squareRootInt(15, 2) << endl;
+
 }
