@@ -37,7 +37,7 @@ double squareRoot(int num, int precision){
     return res;
 }
 
-
+//Then learned from candidate's solution. change input to long and add precision with power of 10.. Nice
 double squareRootInt(int num, int precision){
     long n = (long)num * pow(10, precision * 2);
     long left = 0;
