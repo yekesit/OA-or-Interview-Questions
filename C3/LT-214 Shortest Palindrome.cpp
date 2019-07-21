@@ -39,6 +39,11 @@ public:
     }
 };
 
+//can not do it directly with two strings... Since the first part of KMP only used for the pattern itself
+//If two stirngs are not same... Then the f we generate will be wrong...
+//Since when we combine them together, when we find failuer here, we chosse next[j]. but here next[j] is in
+//the new string combined with two stirngs.... So here is a trick.... Emmm Well, I can not come up with it.. LOL
+
 int main() {
 
 }
