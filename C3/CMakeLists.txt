@@ -3,4 +3,4 @@ project(OA-or-Interview_Question)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(C3 "LT-22 Generate ParenthesesL.cpp")
+add_executable(C3 "adjacent_substract_abs_equal_k.cpp")
