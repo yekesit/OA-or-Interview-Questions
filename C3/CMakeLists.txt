@@ -3,4 +3,4 @@ project(OA-or-Interview_Question)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(C3 "adjacent_substract_abs_equal_k.cpp")
+add_executable(C3 "find_most_days_a_temperature_keep_higher.cpp")
