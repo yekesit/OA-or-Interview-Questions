@@ -553,20 +553,20 @@ struct Edge{
 
 
 
-class UnionFind{
-public:
-    UnionFind(){
-        parent.resize(26, -1);
-        count = 0;
-    }
-
-    int Find(int child){
-        if(parent[child] == -1){
-            count++;
-            parent[child] = child;
+    class UnionFind{
+    public:
+        UnionFind(){
+            parent.resize(26, -1);
+            count = 0;
         }
-        return child == parent[child] ? child : parent[child] = Find(parent[child]);
-    }
+
+        int Find(int child){
+            if(parent[child] == -1){
+                count++;
+                parent[child] = child;
+            }
+            return child == parent[child] ? child : parent[child] = Find(parent[child]);
+        }
 
     void Union(int c1, int c2){
         int p1 = Find(c1);
@@ -671,5 +671,163 @@ public:
             }
         }
         return board;
+    }
+};
+
+//Find adjacent absolute difference equals target
+class Solution_13{
+public:
+    void helper(vector<string>& res, string& cur, int target, int idx, int length){
+        if(idx == length){
+            if(target == 0){
+                res.push_back(cur);
+            }
+            return;
+        }
+
+        for(char i = '0' ; i <= '9'; i++){
+            if(abs(cur[idx - 1] - i) <= target){
+                cur += i;
+                helper(res, cur, target - abs(cur[idx - 1] - i), idx + 1, length);
+                cur.pop_back();
+
+            }
+        }
+    }
+
+
+    vector<string> findNum(int length, int target){
+        vector<string> res;
+        string cur;
+        for(char i = '1'; i <= '9'; i++) {
+            cur += i;
+            helper(res, cur, target, 1, length);
+            cur.pop_back();
+        }
+        return res;
+    }
+};
+
+//Find most days a temperature keep higher
+class Solution_14{
+public:
+    vector<int> findDaysHigherBefore(vector<int>& input){
+        stack<int> idx;
+        vector<int> res(input.size());
+        for(int i = input.size() - 1; i >= 0; i--){
+            while(!idx.empty() && input[i] > input[idx.top()]){
+                int cur = idx.top(); idx.pop();
+                res[cur] = cur - i - 1;
+            }
+            idx.push(i);
+        }
+        int i = -1;
+        while(!idx.empty()){
+            int cur = idx.top(); idx.pop();
+            res[cur] = cur - i - 1;
+        }
+        return res;
+    }
+};
+
+//LT-739 find next warmer day
+class Solution_15 {
+public:
+    vector<int> dailyTemperatures(vector<int>& T) {
+        stack<int> idx;
+        vector<int> res(T.size());
+        for(int i = 0; i < T.size(); i++){
+            while(!idx.empty() && T[i] > T[idx.top()]){
+                res[idx.top()] = i - idx.top();
+                idx.pop();
+            }
+            idx.push(i);
+        }
+        return res;
+    }
+};
+
+//Read 4, and Read 4 follow up
+int read4(char *buf);
+
+class Solution_16 {
+public:
+    /**
+     * @param buf Destination buffer
+     * @param n   Number of characters to read
+     * @return    The number of actual characters read
+     */
+    int read(char *buf, int n) {
+        int res = 0;
+        while (n > 0) {
+            int tmp = min(read4(buf), n);
+            res += tmp;
+            buf += tmp;
+            if (tmp < 4)
+                break;
+            n -= 4;
+        }
+        return res;
+    }
+};
+
+
+class Solution_17 {
+public:
+    /**
+     * @param buf Destination buffer
+     * @param n   Number of characters to read
+     * @return    The number of actual characters read
+     */
+    char buffer[4];
+    int idx = 0;
+    int len = 0;
+    int read(char *buf, int n) {
+        int i = 0;
+        while(i < n){
+            if(idx == len){
+                idx = 0;
+                len = read4(buffer);
+                if(!len) break;
+            }
+            buf[i] = buffer[idx];
+            i++;
+            idx++;
+
+        }
+        return i;
+    }
+};
+
+//522. Longest Uncommon Subsequence II
+
+class Solution_18 {
+public:
+    int findLUSlength(vector<string>& strs) {
+        sort(strs.begin(), strs.end(), [](string& s1, string& s2){ return s1.length() > s2.length(); });
+        for(int i = 0; i < strs.size(); i++){
+            bool flag = true;
+            for(int j = 0; j < strs.size(); j++){
+                if(i == j) continue;
+                if(isSubsequence(strs[i], strs[j])){
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag){
+                return strs[i].length();
+            }
+        }
+        return -1;
+    }
+private:
+    bool isSubsequence(string& s1, string& s2){
+        int j = 0;
+        for(int i = 0; i < s2.length() && j < s1.length(); i++){
+            if(s1[j] == s2[i]){
+                j++;
+            }
+        }
+        return j == s1.length();
     }
 };
