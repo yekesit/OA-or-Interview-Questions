@@ -7,6 +7,6 @@ add_subdirectory(amazon)
 add_subdirectory(ea)
 add_subdirectory(uber_ATG)
 add_subdirectory(C3)
-
+add_subdirectory(yelp)
 
 add_executable(OA-or-Interview-Question main.cpp)
