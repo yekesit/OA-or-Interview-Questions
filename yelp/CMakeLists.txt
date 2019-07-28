@@ -4,4 +4,4 @@ project(OA-or-Interview-Question)
 set(CMAKE_CXX_STANDARD 14)
 
 
-add_executable(yelp main.cpp)
+add_executable(yelp lintcode1797.cpp)
