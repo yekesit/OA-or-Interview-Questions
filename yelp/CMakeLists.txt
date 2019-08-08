@@ -4,4 +4,4 @@ project(OA-or-Interview-Question)
 set(CMAKE_CXX_STANDARD 14)
 
 
-add_executable(yelp min_queue.cpp)
+add_executable(yelp "LT-599 Minimum Index Sum of Two Lists.cpp")
