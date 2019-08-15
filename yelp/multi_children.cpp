@@ -6,6 +6,25 @@
 using namespace std;
 
 
+// key value
+// des path
+
+// 1 2 3 4 !!
+void dfs(unordered_map<char, unordered_set<char>>& next, char cur){
+    if(next.find(cur) == next.end()){
+        cout << "Destination: " << cur << ' ' << endl;
+    }
+
+    for(auto& n : next[cur]){
+        dfs(next, n);
+    }
+}
+
+
+
+
+
+
 int main() {
     vector<vector<char>> clicks{
             {'A', 'B'},
@@ -13,7 +32,6 @@ int main() {
             {'C', 'D'},
             {'C', 'F'},
             {'D', 'E'},
-            {'E', 'A'},
             {'F', 'G'}
     };
 
@@ -32,22 +50,7 @@ int main() {
     cout << "Enter a start!" << endl;
     cin >> start;
 
-    //A B C D !!!
-    unordered_set<char> visited{start};
+    dfs(next, start);
 
-    while(next.find(start) != next.end()){
-        start = next[start];
-        if(visited.find(start) != visited.end()){
-            cout << "Find a cycle here!" << endl;
-            break;
-        }
-        else{
-            visited.insert(start);
-        }
-    }
-
-//    cout << "The destination is: " << start << endl;
 
 }
-
-//
